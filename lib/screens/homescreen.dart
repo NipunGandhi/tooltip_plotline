@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tooltip_plotline/widget/custom_button.dart';
+import 'package:tooltip_plotline/widget/custom_tooltip.dart';
 
 import '../config/colors.dart';
 
@@ -19,13 +20,19 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomButton(
-                    onPressed: () {},
-                    text: 'Button 1',
+                  Tooltip(
+                    message: "high",
+                    child: CustomButton(
+                      onPressed: () {},
+                      text: 'Button 1',
+                    ),
                   ),
-                  CustomButton(
-                    onPressed: () {},
-                    text: 'Button 2',
+                  CustomToolTip(
+                    message: "Hello",
+                    child: CustomButton(
+                      onPressed: () {},
+                      text: 'Button 2',
+                    ),
                   ),
                 ],
               ),
@@ -36,13 +43,19 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomButton(
-                    onPressed: () {},
-                    text: 'Button 4',
+                  CustomToolTip(
+                    message: "Hello",
+                    child: CustomButton(
+                      onPressed: () {},
+                      text: 'Button 4',
+                    ),
                   ),
-                  CustomButton(
-                    onPressed: () {},
-                    text: 'Button 5',
+                  Tooltip(
+                    message: "High",
+                    child: CustomButton(
+                      onPressed: () {},
+                      text: 'Button 5',
+                    ),
                   ),
                 ],
               ),
