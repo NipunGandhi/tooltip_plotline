@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
@@ -11,7 +11,7 @@ class CustomToolTip extends StatefulWidget {
     super.key,
     required this.child,
     required this.message,
-    this.maxWidth = 200.0,
+    this.maxWidth = 100.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
   });
@@ -34,11 +34,26 @@ class _CustomToolTipState extends State<CustomToolTip> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double bottomSpace = screenHeight - offset.dy - renderBox.size.height;
+
+    const double verticalOffset = 8.0;
+    const double margin = 10.0;
+
+    final bool showAbove =  renderBox.size.height > bottomSpace;
+
+    final double left = max(
+      margin,
+      offset.dx - (widget.maxWidth - renderBox.size.width) / 2,
+    );
+
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
-          top: offset.dy + renderBox.size.height + 8.0,
-          left: offset.dx - (widget.maxWidth - renderBox.size.width) / 2,
+          top: showAbove
+              ? offset.dy - verticalOffset - renderBox.size.height
+              : offset.dy + renderBox.size.height + verticalOffset,
+          left: left,
           width: widget.maxWidth,
           child: Material(
             elevation: 4,
@@ -59,6 +74,8 @@ class _CustomToolTipState extends State<CustomToolTip> {
       _isVisible = true;
     });
   }
+
+
 
   void _removeOverlay() {
     _overlayEntry?.remove();

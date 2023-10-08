@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Tooltip(
+                  CustomToolTip(
                     message: "high",
                     child: CustomButton(
                       onPressed: () {},
@@ -36,9 +36,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              CustomButton(
-                onPressed: () {},
-                text: 'Button 3',
+              CustomToolTip(
+                message: "Hello",
+                child: CustomButton(
+                  onPressed: () {},
+                  text: 'Button 3',
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                       text: 'Button 4',
                     ),
                   ),
-                  Tooltip(
+                  CustomToolTip(
                     message: "High",
                     child: CustomButton(
                       onPressed: () {},
