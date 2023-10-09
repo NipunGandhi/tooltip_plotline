@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+
 class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
-  final double maxWidth;
+  final double textSize;
+  final Color textColor;
+  final Color bgColor;
+  final double radius;
+  final double width;
   final EdgeInsets padding;
   final Duration showDuration;
+  final double arrowWidth;
+  final double arrowHeight;
 
   const CustomToolTip({
     super.key,
     required this.child,
     required this.message,
-    this.maxWidth = 100.0,
+    this.width = 100.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
+    this.textSize = 16,
+    this.textColor = Colors.white,
+    this.bgColor = Colors.black,
+    this.radius = 3,
+    this.arrowWidth = 3,
+    this.arrowHeight = 3,
   });
 
   @override
@@ -35,33 +47,34 @@ class _CustomToolTipState extends State<CustomToolTip> {
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double bottomSpace = screenHeight - offset.dy - renderBox.size.height;
+    final double bottomSpace = (screenHeight) - offset.dy - (renderBox.size.height / 2);
 
-    const double verticalOffset = 8.0;
-    const double margin = 10.0;
+    // TODO: Make it dynamic
+    // 38.85714 is height of status bar
+    final double aboveSpace = offset.dy - 38.857142857142854 + (renderBox.size.height / 2);
+    final bool showAbove = bottomSpace < aboveSpace;
 
-    final bool showAbove =  renderBox.size.height > bottomSpace;
-
-    final double left = max(
-      margin,
-      offset.dx - (widget.maxWidth - renderBox.size.width) / 2,
-    );
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
-          top: showAbove
-              ? offset.dy - verticalOffset - renderBox.size.height
-              : offset.dy + renderBox.size.height + verticalOffset,
-          left: left,
-          width: widget.maxWidth,
+          width: widget.width,
           child: Material(
             elevation: 4,
-            child: Padding(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.radius),
+                color: widget.bgColor,
+              ),
               padding: widget.padding,
-              child: Text(
-                widget.message,
-                style: const TextStyle(fontSize: 16),
+              child: Center(
+                child: Text(
+                  widget.message,
+                  style: TextStyle(
+                    fontSize: widget.textSize,
+                    color: widget.textColor,
+                  ),
+                ),
               ),
             ),
           ),
@@ -74,8 +87,6 @@ class _CustomToolTipState extends State<CustomToolTip> {
       _isVisible = true;
     });
   }
-
-
 
   void _removeOverlay() {
     _overlayEntry?.remove();
