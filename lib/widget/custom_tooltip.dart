@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../config/utils.dart';
+
 class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
@@ -12,6 +14,7 @@ class CustomToolTip extends StatefulWidget {
   final Duration showDuration;
   final double arrowWidth;
   final double arrowHeight;
+  final BuildContext context;
 
   const CustomToolTip({
     super.key,
@@ -26,6 +29,7 @@ class CustomToolTip extends StatefulWidget {
     this.radius = 3,
     this.arrowWidth = 3,
     this.arrowHeight = 3,
+    required this.context,
   });
 
   @override
@@ -46,13 +50,7 @@ class _CustomToolTipState extends State<CustomToolTip> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double bottomSpace = (screenHeight) - offset.dy - (renderBox.size.height / 2);
-
-    // TODO: Make it dynamic
-    // 38.85714 is height of status bar
-    final double aboveSpace = offset.dy - 38.857142857142854 + (renderBox.size.height / 2);
-    final bool showAbove = bottomSpace < aboveSpace;
+    findPosition(context, offset, renderBox);
 
 
     _overlayEntry = OverlayEntry(

@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomToolTip(
+                  context: context,
                   message: "high",
                   child: CustomButton(
                     onPressed: () {},
@@ -28,6 +29,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 CustomToolTip(
+                  context: context,
                   message: "Hello",
                   child: CustomButton(
                     onPressed: () {},
@@ -37,6 +39,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             CustomToolTip(
+              context: context,
               message: "Hello",
               child: CustomButton(
                 onPressed: () {},
@@ -47,6 +50,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomToolTip(
+                  context: context,
                   message: "Hello",
                   child: CustomButton(
                     onPressed: () {},
@@ -54,6 +58,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 CustomToolTip(
+                  context: context,
                   message: "Testing",
                   child: CustomButton(
                     onPressed: () {},
