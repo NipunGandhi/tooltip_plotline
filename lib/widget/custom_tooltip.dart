@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:tooltip_plotline/config/enum.dart';
+import '../config/model.dart';
 import '../config/utils.dart';
 
 class CustomToolTip extends StatefulWidget {
@@ -16,11 +17,11 @@ class CustomToolTip extends StatefulWidget {
   final double arrowHeight;
   final BuildContext context;
 
-  const CustomToolTip({
+  CustomToolTip({
     super.key,
     required this.child,
     required this.message,
-    this.width = 100.0,
+    this.width = 400.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
     this.textSize = 16,
@@ -30,7 +31,11 @@ class CustomToolTip extends StatefulWidget {
     this.arrowWidth = 3,
     this.arrowHeight = 3,
     required this.context,
-  });
+  }) {
+    if (MediaQuery.of(context).size.width < width) {
+      throw ("Tooltip's width cannot be more than screens width");
+    }
+  }
 
   @override
   State<CustomToolTip> createState() => _CustomToolTipState();
@@ -50,12 +55,20 @@ class _CustomToolTipState extends State<CustomToolTip> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    findPosition(context, offset, renderBox);
-
+    ToolTipCoordinates position =
+        findPosition(widget.context, offset, renderBox, widget.width);
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
+          top: position.showAbove ? null : position.top,
+          left: position.toolTipAlignment == ToolTipAlignment.left
+              ? position.left
+              : null,
+          right: position.toolTipAlignment == ToolTipAlignment.right
+              ? position.right
+              : null,
+          bottom: position.showAbove ? position.bottom : null,
           width: widget.width,
           child: Material(
             elevation: 4,
@@ -65,13 +78,11 @@ class _CustomToolTipState extends State<CustomToolTip> {
                 color: widget.bgColor,
               ),
               padding: widget.padding,
-              child: Center(
-                child: Text(
-                  widget.message,
-                  style: TextStyle(
-                    fontSize: widget.textSize,
-                    color: widget.textColor,
-                  ),
+              child: Text(
+                widget.message,
+                style: TextStyle(
+                  fontSize: widget.textSize,
+                  color: widget.textColor,
                 ),
               ),
             ),
