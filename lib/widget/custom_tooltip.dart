@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tooltip_plotline/config/enum/enum.dart';
+import 'package:tooltip_plotline/config/utils/position_finder.dart';
+import '../config/model/model.dart';
 
 class CustomToolTip extends StatefulWidget {
   final Widget child;
@@ -12,12 +15,13 @@ class CustomToolTip extends StatefulWidget {
   final Duration showDuration;
   final double arrowWidth;
   final double arrowHeight;
+  final BuildContext context;
 
-  const CustomToolTip({
+  CustomToolTip({
     super.key,
     required this.child,
     required this.message,
-    this.width = 100.0,
+    this.width = 400.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
     this.textSize = 16,
@@ -26,7 +30,12 @@ class CustomToolTip extends StatefulWidget {
     this.radius = 3,
     this.arrowWidth = 3,
     this.arrowHeight = 3,
-  });
+    required this.context,
+  }) {
+    if (MediaQuery.of(context).size.width < width) {
+      throw ("Tooltip's width cannot be more than screens width");
+    }
+  }
 
   @override
   State<CustomToolTip> createState() => _CustomToolTipState();
@@ -41,23 +50,24 @@ class _CustomToolTipState extends State<CustomToolTip> {
     _removeOverlay();
     super.dispose();
   }
-
   void _showOverlay(BuildContext context) {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double bottomSpace = (screenHeight) - offset.dy - (renderBox.size.height / 2);
-
-    // TODO: Make it dynamic
-    // 38.85714 is height of status bar
-    final double aboveSpace = offset.dy - 38.857142857142854 + (renderBox.size.height / 2);
-    final bool showAbove = bottomSpace < aboveSpace;
-
+    ToolTipCoordinates position =
+    findPosition(widget.context, offset, renderBox, widget.width);
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
+          top: position.showAbove ? null : position.top,
+          left: position.toolTipAlignment != ToolTipAlignment.right
+              ? position.left
+              : null,
+          right: position.toolTipAlignment == ToolTipAlignment.right
+              ? position.right
+              : null,
+          bottom: position.showAbove ? position.bottom : null,
           width: widget.width,
           child: Material(
             elevation: 4,
