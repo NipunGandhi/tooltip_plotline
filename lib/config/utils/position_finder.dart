@@ -1,45 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:tooltip_plotline/config/enum.dart';
-import 'package:tooltip_plotline/config/model.dart';
+import 'package:tooltip_plotline/config/utils/alignment_finder.dart';
+import 'package:tooltip_plotline/config/enum/enum.dart';
+import 'package:tooltip_plotline/config/model/model.dart';
 
 ToolTipCoordinates findPosition(BuildContext context, Offset offset,
     RenderBox renderBox, double toolTipWidth) {
   double widgetStartingX = offset.dx;
   double widgetStartingY = offset.dy;
+  double widgetWidth = renderBox.size.width;
+  double widgetHeight = renderBox.size.height;
 
   /// Screen Height and Width
   final double screenHeight = MediaQuery.of(context).size.height;
   final double screenWidth = MediaQuery.of(context).size.width;
 
-  ToolTipAlignment alignment;
-
   /// Calculates the above and bottom screen size
   final double bottomSpace = (screenHeight) -
       widgetStartingY -
-      (renderBox.size.height / 2) -
+      (widgetHeight / 2) -
       MediaQuery.of(context).padding.bottom;
-  final double aboveSpace = widgetStartingY -
-      MediaQuery.of(context).padding.top +
-      (renderBox.size.height / 2);
+  final double aboveSpace =
+      widgetStartingY - MediaQuery.of(context).padding.top + (widgetHeight / 2);
 
   /// One with more height will be selected
   final bool showAbove = bottomSpace < aboveSpace;
 
-  if (offset.dx - toolTipWidth / 2 >= 0 &&
-      offset.dx + toolTipWidth / 2 <= screenWidth) {
-    alignment = ToolTipAlignment.center;
-  } else if (offset.dx - toolTipWidth / 2 < 0) {
-    alignment = ToolTipAlignment.left;
-  } else if (offset.dx + toolTipWidth / 2 > screenWidth) {
-    alignment = ToolTipAlignment.right;
-  } else {
-    alignment = ToolTipAlignment.center;
-  }
+  /// Self made function to find alignment Type of tooltip
+  ToolTipAlignment alignment =
+  alignmentFinder(offset, toolTipWidth, screenWidth);
 
-  double top = widgetStartingY + renderBox.size.height;
+  double top = widgetStartingY + widgetHeight;
   double left = widgetStartingX;
   double bottom = screenHeight - widgetStartingY;
-  double right = screenWidth - widgetStartingX - renderBox.size.width;
+  double right = screenWidth - widgetStartingX - widgetWidth;
+
+  if (alignment == ToolTipAlignment.center || widgetWidth >= toolTipWidth) {
+    var difference = (toolTipWidth - widgetWidth) / 2;
+    left = widgetStartingX - difference;
+  }
 
   return ToolTipCoordinates(
     showAbove: showAbove,

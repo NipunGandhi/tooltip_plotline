@@ -1,4 +1,4 @@
-import 'package:tooltip_plotline/config/enum.dart';
+import 'package:tooltip_plotline/config/enum/enum.dart';
 
 class ToolTipCoordinates {
   final bool showAbove;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tooltip_plotline/config/enum.dart';
-import '../config/model.dart';
-import '../config/utils.dart';
+import 'package:tooltip_plotline/config/enum/enum.dart';
+import 'package:tooltip_plotline/config/utils/position_finder.dart';
+import '../config/model/model.dart';
 
 class CustomToolTip extends StatefulWidget {
   final Widget child;
@@ -50,19 +50,18 @@ class _CustomToolTipState extends State<CustomToolTip> {
     _removeOverlay();
     super.dispose();
   }
-
   void _showOverlay(BuildContext context) {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
 
     ToolTipCoordinates position =
-        findPosition(widget.context, offset, renderBox, widget.width);
+    findPosition(widget.context, offset, renderBox, widget.width);
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
           top: position.showAbove ? null : position.top,
-          left: position.toolTipAlignment == ToolTipAlignment.left
+          left: position.toolTipAlignment != ToolTipAlignment.right
               ? position.left
               : null,
           right: position.toolTipAlignment == ToolTipAlignment.right
@@ -78,11 +77,13 @@ class _CustomToolTipState extends State<CustomToolTip> {
                 color: widget.bgColor,
               ),
               padding: widget.padding,
-              child: Text(
-                widget.message,
-                style: TextStyle(
-                  fontSize: widget.textSize,
-                  color: widget.textColor,
+              child: Center(
+                child: Text(
+                  widget.message,
+                  style: TextStyle(
+                    fontSize: widget.textSize,
+                    color: widget.textColor,
+                  ),
                 ),
               ),
             ),

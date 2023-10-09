@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tooltip_plotline/config/colors.dart';
+import 'package:tooltip_plotline/config/colors/colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
