@@ -1,29 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:tooltip_plotline/config/enum/enum.dart';
+import 'package:tooltip_plotline/config/model/model.dart';
 
 class ArrowPainter extends CustomPainter {
   final bool showAbove;
   final Color color;
+  final double object;
+  final ToolTipCoordinates tooltipAlignment;
+  final double height;
+  final double width;
 
   ArrowPainter({
+    required this.height,
+    required this.width,
+    required this.object,
+    required this.tooltipAlignment,
     this.showAbove = false,
     this.color = Colors.black,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
+    double starting = 0;
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
     final path = Path();
 
+    if (tooltipAlignment.toolTipAlignment == ToolTipAlignment.right) {
+      starting += object - width;
+    }
+
     if (showAbove) {
-      path.moveTo(size.width / 2 - 20, 0);
-      path.lineTo(size.width / 2 + 20, 0);
-      path.lineTo(size.width / 2, 20);
+      /// When we have to present tooltip on top
+      path.moveTo(starting + 0, 0);
+      path.lineTo(starting + width, 0);
+      path.lineTo(starting + (width / 2), height);
     } else {
-      path.moveTo(size.width / 2 - 20, size.height);
-      path.lineTo(size.width / 2 + 20, size.height);
-      path.lineTo(size.width / 2, size.height - 20);
+      path.moveTo(starting + 0, height);
+      path.lineTo(starting + width, height);
+      path.lineTo(starting + width / 2, 0);
     }
     path.close();
     canvas.drawPath(path, paint);

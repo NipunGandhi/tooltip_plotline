@@ -81,7 +81,13 @@ class _CustomToolTipState extends State<CustomToolTip> {
             children: [
               if (!position.showAbove)
                 CustomPaint(
-                  foregroundPainter: ArrowPainter(),
+                  foregroundPainter: ArrowPainter(
+                    showAbove: position.showAbove,
+                    object: widget.width,
+                    tooltipAlignment: position,
+                    width: widget.arrowWidth,
+                    height: widget.arrowHeight,
+                  ),
                   child: Container(
                     height: widget.arrowHeight,
                     color: PlotlineColor.background1,
@@ -105,8 +111,13 @@ class _CustomToolTipState extends State<CustomToolTip> {
               ),
               if (position.showAbove)
                 CustomPaint(
-                  foregroundPainter:
-                      ArrowPainter(showAbove: position.showAbove),
+                  foregroundPainter: ArrowPainter(
+                    showAbove: position.showAbove,
+                    object: widget.width,
+                    tooltipAlignment: position,
+                    width: widget.arrowWidth,
+                    height: widget.arrowHeight,
+                  ),
                   child: Container(
                     height: widget.arrowHeight,
                     color: PlotlineColor.background1,

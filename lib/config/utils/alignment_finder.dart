@@ -10,16 +10,16 @@ ToolTipAlignment alignmentFinder(Offset offset, double toolTipWidth,
           offset.dx + toolTipWidth / 2 <= screenWidth) ||
       (offset.dx >= difference &&
           screenWidth - offset.dx - widgetWidth >= difference)) {
-    print(ToolTipAlignment.center);
+    // print(ToolTipAlignment.center);
     return ToolTipAlignment.center;
   } else if (offset.dx - toolTipWidth / 2 <= 0) {
-    print(ToolTipAlignment.left);
+    // print(ToolTipAlignment.left);
     return ToolTipAlignment.left;
   } else if (offset.dx + toolTipWidth / 2 >= screenWidth) {
-    print(ToolTipAlignment.right);
+    // print(ToolTipAlignment.right);
     return ToolTipAlignment.right;
   } else {
-    print(ToolTipAlignment.center);
+    // print(ToolTipAlignment.center);
     return ToolTipAlignment.center;
   }
 }
