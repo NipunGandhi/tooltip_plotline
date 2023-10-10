@@ -87,6 +87,7 @@ class _CustomToolTipState extends State<CustomToolTip> {
                     tooltipAlignment: position,
                     width: widget.arrowWidth,
                     height: widget.arrowHeight,
+                    color: widget.bgColor,
                   ),
                   child: Container(
                     height: widget.arrowHeight,
@@ -116,6 +117,7 @@ class _CustomToolTipState extends State<CustomToolTip> {
                     object: widget.width,
                     tooltipAlignment: position,
                     width: widget.arrowWidth,
+                    color: widget.bgColor,
                     height: widget.arrowHeight,
                   ),
                   child: Container(

@@ -30,6 +30,9 @@ class ArrowPainter extends CustomPainter {
     if (tooltipAlignment.toolTipAlignment == ToolTipAlignment.right) {
       starting += object - width;
     }
+    if (tooltipAlignment.toolTipAlignment == ToolTipAlignment.center) {
+      starting += object/2 - width/2;
+    }
 
     if (showAbove) {
       /// When we have to present tooltip on top
