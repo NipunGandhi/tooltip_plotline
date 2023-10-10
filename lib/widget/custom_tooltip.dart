@@ -23,7 +23,7 @@ class CustomToolTip extends StatefulWidget {
     super.key,
     required this.child,
     required this.message,
-    this.width = 400.0,
+    this.width = 200.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
     this.textSize = 16,
