@@ -40,7 +40,8 @@ class HomeScreen extends StatelessWidget {
               ),
               CustomToolTip(
                 context: context,
-                message: "Hello",
+                width: 100,
+                message: "oooooooooooooooooooHelloHelloHelloHelloooooooooooooooooooooooooooooHelloHelloHelloHellooooooooooooooooooooooooooooodasdasd12313123213dadsaNipufdadfasdasdasGandgudads",
                 child: CustomButton(
                   onPressed: () {},
                   text: 'Button 3',
