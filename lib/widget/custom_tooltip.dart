@@ -9,6 +9,8 @@ import '../config/model/model.dart';
 class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
+  final String? imageURL;
+  final EdgeInsets? imageRadius;
   final double textSize;
   final Color textColor;
   final Color bgColor;
@@ -23,17 +25,19 @@ class CustomToolTip extends StatefulWidget {
   CustomToolTip({
     super.key,
     required this.child,
-    required this.message,
+    this.message = "No message given",
     this.width = 200.0,
     this.padding = const EdgeInsets.all(8.0),
     this.showDuration = const Duration(milliseconds: 1500),
     this.textSize = 16,
     this.textColor = Colors.white,
     this.bgColor = Colors.black,
-    this.radius = 3,
+    this.radius = 20,
     this.arrowWidth = 20,
     this.arrowHeight = 20,
     required this.context,
+    this.imageURL,
+    this.imageRadius,
   }) {
     if (MediaQuery.of(context).size.width < width) {
       throw ("Tooltip's width cannot be more than screens width");
@@ -45,7 +49,6 @@ class CustomToolTip extends StatefulWidget {
 }
 
 class _CustomToolTipState extends State<CustomToolTip> {
-  bool _isVisible = false;
   OverlayEntry? _overlayEntry;
 
   @override
@@ -77,76 +80,80 @@ class _CustomToolTipState extends State<CustomToolTip> {
               ? position.right
               : null,
           width: widget.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (!position.showAbove)
-                CustomPaint(
-                  foregroundPainter: ArrowPainter(
-                    showAbove: position.showAbove,
-                    object: widget.width,
-                    tooltipAlignment: position,
-                    width: widget.arrowWidth,
-                    height: widget.arrowHeight,
-                    color: widget.bgColor,
-                  ),
-                  child: Container(
-                    height: widget.arrowHeight,
-                    color: PlotlineColor.background1,
-                  ),
-                ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: position.toolTipAlignment ==
-                          ToolTipAlignment.center
-                      ? BorderRadius.circular(widget.radius)
-                      : Measurements().tooltipRadius(position, widget.radius),
-                  color: widget.bgColor,
-                ),
-                padding: widget.padding,
-                child: Center(
-                  child: Text(
-                    widget.message,
-                    style: TextStyle(
-                      fontSize: widget.textSize,
-                      color: widget.textColor,
+          child: Material(
+            type: MaterialType.transparency,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!position.showAbove)
+                  CustomPaint(
+                    foregroundPainter: ArrowPainter(
+                      showAbove: position.showAbove,
+                      object: widget.width,
+                      tooltipAlignment: position,
+                      width: widget.arrowWidth,
+                      height: widget.arrowHeight,
+                      color: widget.bgColor,
+                    ),
+                    child: Container(
+                      height: widget.arrowHeight,
+                      color: PlotlineColor.background1,
                     ),
                   ),
-                ),
-              ),
-              if (position.showAbove)
-                CustomPaint(
-                  foregroundPainter: ArrowPainter(
-                    showAbove: position.showAbove,
-                    object: widget.width,
-                    tooltipAlignment: position,
-                    width: widget.arrowWidth,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        Measurements().tooltipRadius(position, widget.radius),
                     color: widget.bgColor,
-                    height: widget.arrowHeight,
                   ),
-                  child: Container(
-                    height: widget.arrowHeight,
-                    color: PlotlineColor.background1,
+                  padding: widget.padding,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          widget.message,
+                          style: TextStyle(
+                            fontSize: widget.textSize,
+                            color: widget.textColor,
+                          ),
+                        ),
+                      ),
+                      if (widget.imageURL?.isNotEmpty == true)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(widget.radius),
+                          child: Image.network(widget.imageURL!),
+                        ),
+                    ],
                   ),
                 ),
-            ],
+                if (position.showAbove)
+                  CustomPaint(
+                    foregroundPainter: ArrowPainter(
+                      showAbove: position.showAbove,
+                      object: widget.width,
+                      tooltipAlignment: position,
+                      width: widget.arrowWidth,
+                      color: widget.bgColor,
+                      height: widget.arrowHeight,
+                    ),
+                    child: Container(
+                      height: widget.arrowHeight,
+                      color: PlotlineColor.background1,
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       },
     );
 
     Overlay.of(context).insert(_overlayEntry!);
-    setState(() {
-      _isVisible = true;
-    });
   }
 
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    setState(() {
-      _isVisible = false;
-    });
   }
 
   @override
@@ -158,11 +165,6 @@ class _CustomToolTipState extends State<CustomToolTip> {
           widget.showDuration,
           _removeOverlay,
         );
-      },
-      onTap: () {
-        if (_isVisible) {
-          _removeOverlay();
-        }
       },
       child: widget.child,
     );

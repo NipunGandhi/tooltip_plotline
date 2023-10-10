@@ -4,21 +4,24 @@ import 'package:tooltip_plotline/config/model/model.dart';
 
 class Measurements {
   BorderRadius tooltipRadius(ToolTipCoordinates position, double radius) {
+    if (position.toolTipAlignment == ToolTipAlignment.center) {
+      return BorderRadius.circular(radius);
+    }
     return BorderRadius.only(
       topLeft: !position.showAbove &&
-          position.toolTipAlignment == ToolTipAlignment.left
+              position.toolTipAlignment == ToolTipAlignment.left
           ? Radius.zero
           : Radius.circular(radius),
       topRight: !position.showAbove &&
-          position.toolTipAlignment == ToolTipAlignment.right
+              position.toolTipAlignment == ToolTipAlignment.right
           ? Radius.zero
           : Radius.circular(radius),
       bottomLeft: position.showAbove &&
-          position.toolTipAlignment == ToolTipAlignment.left
+              position.toolTipAlignment == ToolTipAlignment.left
           ? Radius.zero
           : Radius.circular(radius),
       bottomRight: position.showAbove &&
-          position.toolTipAlignment == ToolTipAlignment.right
+              position.toolTipAlignment == ToolTipAlignment.right
           ? Radius.zero
           : Radius.circular(radius),
     );

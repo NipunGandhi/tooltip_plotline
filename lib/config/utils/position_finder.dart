@@ -27,7 +27,7 @@ ToolTipCoordinates findPosition(BuildContext context, Offset offset,
 
   /// Self made function to find alignment Type of tooltip
   ToolTipAlignment alignment =
-  alignmentFinder(offset, toolTipWidth, screenWidth, widgetWidth);
+      alignmentFinder(offset, toolTipWidth, screenWidth, widgetWidth);
 
   double top = widgetStartingY + widgetHeight;
   double left = widgetStartingX;
@@ -46,5 +46,7 @@ ToolTipCoordinates findPosition(BuildContext context, Offset offset,
     left: left,
     right: right,
     toolTipAlignment: alignment,
+    bottomSpace: bottomSpace,
+    aboveSpace: aboveSpace,
   );
 }
