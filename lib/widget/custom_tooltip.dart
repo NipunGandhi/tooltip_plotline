@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tooltip_plotline/config/colors/colors.dart';
 import 'package:tooltip_plotline/config/enum/enum.dart';
+import 'package:tooltip_plotline/config/utils/measurement.dart';
 import 'package:tooltip_plotline/config/utils/position_finder.dart';
 import 'package:tooltip_plotline/widget/arrow_painter.dart';
 import '../config/model/model.dart';
@@ -96,7 +97,10 @@ class _CustomToolTipState extends State<CustomToolTip> {
                 ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widget.radius),
+                  borderRadius: position.toolTipAlignment ==
+                          ToolTipAlignment.center
+                      ? BorderRadius.circular(widget.radius)
+                      : Measurements().tooltipRadius(position, widget.radius),
                   color: widget.bgColor,
                 ),
                 padding: widget.padding,
