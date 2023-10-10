@@ -10,6 +10,7 @@ class PlotlineColor {
   //Background Color
   static const Color background1 = Color.fromRGBO(184, 184, 184, 1);
   static const Color background2 = Color.fromRGBO(255, 255, 255, 1);
+  static const Color background3 = Color.fromRGBO(245, 245, 245, 1);
 
   // Line Divider colors
   static const dividerDark = Color.fromRGBO(54, 52, 59, 1);
