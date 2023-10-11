@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tooltip_plotline/config/colors/colors.dart';
 import 'package:tooltip_plotline/config/controller/controller.dart';
 import 'package:tooltip_plotline/config/model/tooltip_model.dart';
+import 'package:tooltip_plotline/config/utils/hexa_checker.dart';
 import 'package:tooltip_plotline/screens/homescreen.dart';
 import 'package:tooltip_plotline/widget/custom_button.dart';
 import 'package:tooltip_plotline/widget/custom_dropdown.dart';
 import 'package:tooltip_plotline/widget/custom_textfield.dart';
 import 'package:tooltip_plotline/widget/oneline_converter.dart';
+import 'package:tooltip_plotline/widget/warning.dart';
 
 import '../config/utils/hive_services.dart';
 
@@ -108,41 +111,75 @@ class _RenderScreenState extends State<RenderScreen> {
                     width: constraint.maxWidth,
                     widgets: [
                       BuildTextField(
-                          label: 'Text Size', controller: textSizeController),
+                        label: 'Text Size',
+                        controller: textSizeController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                       BuildTextField(
-                          label: 'Padding', controller: paddingController),
+                        label: 'Padding',
+                        controller: paddingController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                     ],
                   ),
                   BuildTextField(
-                      label: 'Text Color', controller: textColorController),
+                    label: 'Text Color',
+                    controller: textColorController,
+                    formatter: [AlphaNumericFormatter()],
+                  ),
                   BuildTextField(
-                      label: 'Background Color', controller: bgColorController),
+                      label: 'Background Color',
+                      controller: bgColorController,
+                      formatter: [AlphaNumericFormatter()]),
                   OneLine(
                     width: constraint.maxWidth,
                     widgets: [
                       BuildTextField(
-                          label: 'Corner Radius',
-                          controller: cornerRadiusController),
+                        label: 'Corner Radius',
+                        controller: cornerRadiusController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                       BuildTextField(
-                          label: 'Tooltip Width', controller: widthController),
+                        label: 'Tooltip Width',
+                        controller: widthController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                     ],
                   ),
                   OneLine(
                     width: constraint.maxWidth,
                     widgets: [
                       BuildTextField(
-                          label: 'Arrow Height',
-                          controller: arrowHeightController),
+                        label: 'Arrow Height',
+                        controller: arrowHeightController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                       BuildTextField(
-                          label: 'Arrow Width',
-                          controller: arrowWidthController),
+                        label: 'Arrow Width',
+                        controller: arrowWidthController,
+                        textInputType: TextInputType.number,
+                        formatter: [FilteringTextInputFormatter.digitsOnly],
+                      ),
                     ],
                   ),
                   BuildTextField(label: 'Image URL', controller: imageURL),
                   BuildTextField(
-                      label: 'Image Radius', controller: imageRadius),
+                    label: 'Image Radius',
+                    controller: imageRadius,
+                    textInputType: TextInputType.number,
+                    formatter: [FilteringTextInputFormatter.digitsOnly],
+                  ),
                   BuildTextField(
-                      label: 'Gap Between Image and Text', controller: gap),
+                    label: 'Gap Between Image and Text',
+                    controller: gap,
+                    formatter: [FilteringTextInputFormatter.digitsOnly],
+                    textInputType: TextInputType.number,
+                  ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -178,23 +215,10 @@ class _RenderScreenState extends State<RenderScreen> {
                               );
                             }
                           } else {
-                            // Show an alert dialog because not all controllers have values.
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return AlertDialog(
-                                  title: Text('Error'),
-                                  content: Text(
-                                      'Please fill in all the required fields.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
+                                return const Warning();
                               },
                             );
                           }
