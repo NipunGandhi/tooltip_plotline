@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BuildTextField extends StatelessWidget {
-  const BuildTextField({super.key, required this.label, required this.controller});
+  const BuildTextField(
+      {super.key, required this.label, required this.controller});
   final String label;
   final TextEditingController controller;
 
@@ -22,6 +24,10 @@ class BuildTextField extends StatelessWidget {
           ),
           child: TextField(
             controller: controller,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               hintText: 'Input',
               border: InputBorder.none,

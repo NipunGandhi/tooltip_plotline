@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tooltip_plotline/config/colors/colors.dart';
+import 'package:tooltip_plotline/config/controller/controller.dart';
+import 'package:tooltip_plotline/config/model/tooltip_model.dart';
 import 'package:tooltip_plotline/widget/custom_button.dart';
 import 'package:tooltip_plotline/widget/custom_dropdown.dart';
 import 'package:tooltip_plotline/widget/custom_textfield.dart';
@@ -7,16 +10,19 @@ import 'package:tooltip_plotline/widget/oneline_converter.dart';
 
 class RenderScreen extends StatelessWidget {
   RenderScreen({super.key});
-  final String selectedTarget = 'Button 1';
   final TextEditingController textEditingController = TextEditingController();
   final TextEditingController textSizeController = TextEditingController();
   final TextEditingController paddingController = TextEditingController();
   final TextEditingController textColorController = TextEditingController();
   final TextEditingController bgColorController = TextEditingController();
   final TextEditingController cornerRadiusController = TextEditingController();
-
+  final TextEditingController widthController = TextEditingController();
+  final TextEditingController arrowHeightController = TextEditingController();
+  final TextEditingController arrowWidthController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    ListController listController =
+        Provider.of<ListController>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -26,7 +32,13 @@ class RenderScreen extends StatelessWidget {
               return Column(
                 children: [
                   BuildDropDown(
-                      label: 'Target Element', selectedTarget: selectedTarget),
+                    label: 'Select Button',
+                    selectedTarget: listController.buttonSelected,
+                    items: listController.map.keys.toList(),
+                    onChanged: (String? newValue) {
+                      listController.buttonSelected = newValue!;
+                    },
+                  ),
                   BuildTextField(
                       label: 'Tooltip Text', controller: textEditingController),
                   OneLine(
@@ -49,8 +61,7 @@ class RenderScreen extends StatelessWidget {
                           label: 'Corner Radius',
                           controller: cornerRadiusController),
                       BuildTextField(
-                          label: 'Tooltip Width',
-                          controller: cornerRadiusController),
+                          label: 'Tooltip Width', controller: widthController),
                     ],
                   ),
                   OneLine(
@@ -58,10 +69,10 @@ class RenderScreen extends StatelessWidget {
                     widgets: [
                       BuildTextField(
                           label: 'Arrow Height',
-                          controller: cornerRadiusController),
+                          controller: arrowHeightController),
                       BuildTextField(
                           label: 'Arrow Width',
-                          controller: cornerRadiusController),
+                          controller: arrowWidthController),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -71,26 +82,20 @@ class RenderScreen extends StatelessWidget {
                       CustomButton(
                         color: Colors.blue,
                         onPressed: () {
-                          final String tooltipText = textEditingController.text;
-                          final double textSize =
-                              double.tryParse(textSizeController.text) ?? 16.0;
-                          final double padding =
-                              double.tryParse(paddingController.text) ?? 8.0;
-                          final Color textColor =
-                              getColor(textColorController.text);
-                          final Color bgColor =
-                              getColor(bgColorController.text);
-                          final double cornerRadius =
-                              double.tryParse(cornerRadiusController.text) ??
-                                  0.0;
-
-                          print('Selected Target: $selectedTarget');
-                          print('Tooltip Text: $tooltipText');
-                          print('Text Size: $textSize');
-                          print('Padding: $padding');
-                          print('Text Color: $textColor');
-                          print('Background Color: $bgColor');
-                          print('Corner Radius: $cornerRadius');
+                          listController.map[listController.buttonSelected] =
+                              CustomToolTipParams(
+                            message: textEditingController.text,
+                            textSize: double.parse(textSizeController.text),
+                            textColor: Colors.blue,
+                            bgColor: Colors.yellow,
+                            radius: double.parse(cornerRadiusController.text),
+                            width: double.parse(widthController.text),
+                            padding: EdgeInsets.all(
+                                double.parse(paddingController.text)),
+                            arrowWidth: double.parse(arrowWidthController.text),
+                            arrowHeight:
+                                double.parse(arrowHeightController.text),
+                          );
                         },
                         text: 'Render Tooltip',
                         fontColor: PlotlineColor.lightFont1,
