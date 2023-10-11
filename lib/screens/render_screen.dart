@@ -48,12 +48,13 @@ class _RenderScreenState extends State<RenderScreen> {
       print(initController.map);
     }
     if (initController.map.containsKey(initController.buttonSelected)) {
-      CustomToolTipParams selectedParams = initController.map[initController.buttonSelected]!;
+      CustomToolTipParams selectedParams =
+          initController.map[initController.buttonSelected]!;
       textEditingController.text = selectedParams.message;
       textSizeController.text = selectedParams.textSize.toString();
-      paddingController.text = selectedParams.padding.vertical.toString();
-      textColorController.text = selectedParams.textColor.value.toRadixString(16).substring(2);
-      bgColorController.text = selectedParams.bgColor.value.toRadixString(16).substring(2);
+      paddingController.text = selectedParams.padding.left.toString();
+      textColorController.text = selectedParams.textColor;
+      bgColorController.text = selectedParams.bgColor;
       cornerRadiusController.text = selectedParams.radius.toString();
       widthController.text = selectedParams.width.toString();
       arrowHeightController.text = selectedParams.arrowHeight.toString();
@@ -129,12 +130,8 @@ class _RenderScreenState extends State<RenderScreen> {
                               CustomToolTipParams(
                             message: textEditingController.text,
                             textSize: double.parse(textSizeController.text),
-                            textColor: Color(int.parse(
-                                '0xFF${textColorController.text}',
-                                radix: 16)),
-                            bgColor: Color(int.parse(
-                                '0xFF${textColorController.text}',
-                                radix: 16)),
+                            textColor: textColorController.text,
+                            bgColor: bgColorController.text,
                             radius: double.parse(cornerRadiusController.text),
                             width: double.parse(widthController.text),
                             padding: EdgeInsets.all(
@@ -144,6 +141,8 @@ class _RenderScreenState extends State<RenderScreen> {
                                 double.parse(arrowHeightController.text),
                           );
                           LocalStorage().store(listController.map);
+                          listController.update();
+                          Navigator.pop(context);
                         },
                         text: 'Render Tooltip',
                         fontColor: PlotlineColor.lightFont1,
@@ -157,13 +156,5 @@ class _RenderScreenState extends State<RenderScreen> {
         ),
       ),
     );
-  }
-
-  Color getColor(String colorHex) {
-    try {
-      return Color(int.parse(colorHex.replaceAll("#", "0xFF")));
-    } catch (e) {
-      return Colors.black;
-    }
   }
 }

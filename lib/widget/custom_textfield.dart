@@ -24,10 +24,10 @@ class BuildTextField extends StatelessWidget {
           ),
           child: TextField(
             controller: controller,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ],
-            keyboardType: TextInputType.number,
+            // inputFormatters: <TextInputFormatter>[
+            //   FilteringTextInputFormatter.digitsOnly
+            // ],
+            // keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               hintText: 'Input',
               border: InputBorder.none,

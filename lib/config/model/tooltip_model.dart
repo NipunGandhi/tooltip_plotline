@@ -13,9 +13,9 @@ class CustomToolTipParams {
   @HiveField(3)
   final double textSize;
   @HiveField(4)
-  final Color textColor;
+  final String textColor;
   @HiveField(5)
-  final Color bgColor;
+  final String bgColor;
   @HiveField(6)
   final double radius;
   @HiveField(7)
