@@ -31,11 +31,11 @@ class _RenderScreenState extends State<RenderScreen> {
   void initState() {
     ListController initController =
         Provider.of<ListController>(context, listen: false);
-    trya(initController);
+    initializingValues(initController);
     super.initState();
   }
 
-  Future<void> trya(ListController initController) async {
+  Future<void> initializingValues(ListController initController) async {
     final storedMap = await LocalStorage().fetch();
     if (storedMap != null) {
       final convertedMap = <String, CustomToolTipParams>{};
@@ -79,6 +79,7 @@ class _RenderScreenState extends State<RenderScreen> {
                     items: listController.map.keys.toList(),
                     onChanged: (String? newValue) {
                       listController.buttonSelected = newValue!;
+                      initializingValues(listController);
                     },
                   ),
                   BuildTextField(

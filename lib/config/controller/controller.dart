@@ -15,7 +15,7 @@ class ListController extends ChangeNotifier {
       arrowHeight: 25,
     ),
     "Button 2": CustomToolTipParams(
-      message: "This is a dummy tooltip message.",
+      message: "Button 2 message",
       textSize: 18,
       textColor: Colors.blue,
       bgColor: Colors.yellow,
