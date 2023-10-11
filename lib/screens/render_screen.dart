@@ -79,7 +79,7 @@ class _RenderScreenState extends State<RenderScreen> {
       arrowHeightController.text = selectedParams.arrowHeight.toString();
       arrowWidthController.text = selectedParams.arrowWidth.toString();
       imageURL.text = selectedParams.imageURL.toString();
-      imageRadius.text = selectedParams.radius.toString();
+      imageRadius.text = selectedParams.imageRadius.toString();
       gap.text = selectedParams.gap.toString();
     }
   }
@@ -202,6 +202,9 @@ class _RenderScreenState extends State<RenderScreen> {
                                   double.parse(arrowWidthController.text),
                               arrowHeight:
                                   double.parse(arrowHeightController.text),
+                              imageURL: imageURL.text,
+                              imageRadius: double.parse(imageRadius.text),
+                              gap: double.parse(gap.text),
                             );
                             LocalStorage().store(listController.map);
                             listController.update();

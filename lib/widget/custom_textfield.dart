@@ -3,7 +3,11 @@ import 'package:flutter/services.dart';
 
 class BuildTextField extends StatelessWidget {
   const BuildTextField(
-      {super.key, required this.label, required this.controller, this.textInputType, this.formatter});
+      {super.key,
+      required this.label,
+      required this.controller,
+      this.textInputType,
+      this.formatter});
   final String label;
   final TextEditingController controller;
   final TextInputType? textInputType;
@@ -29,7 +33,6 @@ class BuildTextField extends StatelessWidget {
             inputFormatters: formatter,
             keyboardType: textInputType,
             decoration: const InputDecoration(
-              hintText: 'Input',
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             ),
@@ -40,4 +43,3 @@ class BuildTextField extends StatelessWidget {
     );
   }
 }
-
