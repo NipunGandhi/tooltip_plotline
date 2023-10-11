@@ -202,6 +202,9 @@ class _RenderScreenState extends State<RenderScreen> {
                                   double.parse(arrowWidthController.text),
                               arrowHeight:
                                   double.parse(arrowHeightController.text),
+                              imageURL: imageURL.text,
+                              imageRadius: double.parse(imageRadius.text),
+                              gap: double.parse(gap.text),
                             );
                             LocalStorage().store(listController.map);
                             listController.update();
