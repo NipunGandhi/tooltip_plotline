@@ -36,19 +36,16 @@ class _RenderScreenState extends State<RenderScreen> {
   }
 
   Future<void> trya(ListController initController) async {
-    if (initController.map.isEmpty) {
-      final storedMap = await LocalStorage().fetch();
-      if (storedMap is Map) {
-        // Check if the storedMap is a Map
-        final convertedMap = <String, CustomToolTipParams>{};
-        storedMap.forEach((key, value) {
-          if (key is String && value is CustomToolTipParams) {
-            convertedMap[key] = value;
-          }
-        });
-        initController.map = convertedMap;
-        print(initController.map);
-      } else {}
+    final storedMap = await LocalStorage().fetch();
+    if(storedMap != null) {
+      final convertedMap = <String, CustomToolTipParams>{};
+      storedMap.forEach((key, value) {
+        if (key is String && value is CustomToolTipParams) {
+          convertedMap[key] = value;
+        }
+      });
+      initController.map = convertedMap;
+      print(initController.map);
     }
     if (initController.map.containsKey(initController.buttonSelected)) {
 
@@ -118,8 +115,6 @@ class _RenderScreenState extends State<RenderScreen> {
                       CustomButton(
                         color: Colors.blue,
                         onPressed: () {
-                          // LocalStorage().store(listController.map);
-                          LocalStorage().store(listController.map);
                           // listController.map[listController.buttonSelected] =
                           //     CustomToolTipParams(
                           //   message: textEditingController.text,
@@ -134,6 +129,7 @@ class _RenderScreenState extends State<RenderScreen> {
                           //   arrowHeight:
                           //       double.parse(arrowHeightController.text),
                           // );
+                          LocalStorage().store(listController.map);
                         },
                         text: 'Render Tooltip',
                         fontColor: PlotlineColor.lightFont1,
