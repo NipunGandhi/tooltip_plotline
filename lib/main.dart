@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tooltip_plotline/config/controller/controller.dart';
+import 'package:tooltip_plotline/config/model/edge_inset_adapter.dart';
+import 'package:tooltip_plotline/config/model/tooltip_model.dart';
 import 'package:tooltip_plotline/screens/render_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CustomToolTipParamsAdapter());
+  Hive.registerAdapter(ColorAdapter());
+  Hive.registerAdapter(EdgeInsetsAdapter());
   runApp(MyApp());
 }
 
@@ -12,9 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<ListController>(create: (_) => ListController()),
+        ChangeNotifierProvider(create: (context)=> ListController())
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         home: RenderScreen(),
       ),
     );

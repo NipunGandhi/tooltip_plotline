@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+part 'tooltip_model.g.dart';
 
+@HiveType(typeId: 1)
 class CustomToolTipParams {
+  @HiveField(0)
   final String message;
+  @HiveField(1)
   final String? imageURL;
+  @HiveField(2)
   final EdgeInsets? imageRadius;
+  @HiveField(3)
   final double textSize;
+  @HiveField(4)
   final Color textColor;
+  @HiveField(5)
   final Color bgColor;
+  @HiveField(6)
   final double radius;
+  @HiveField(7)
   final double width;
+  @HiveField(8)
   final EdgeInsets padding;
+  @HiveField(9)
   final double arrowWidth;
+  @HiveField(10)
   final double arrowHeight;
 
   CustomToolTipParams({

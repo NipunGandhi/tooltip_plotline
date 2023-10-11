@@ -8,17 +8,53 @@ import 'package:tooltip_plotline/widget/custom_dropdown.dart';
 import 'package:tooltip_plotline/widget/custom_textfield.dart';
 import 'package:tooltip_plotline/widget/oneline_converter.dart';
 
-class RenderScreen extends StatelessWidget {
-  RenderScreen({super.key});
-  final TextEditingController textEditingController = TextEditingController();
-  final TextEditingController textSizeController = TextEditingController();
-  final TextEditingController paddingController = TextEditingController();
-  final TextEditingController textColorController = TextEditingController();
-  final TextEditingController bgColorController = TextEditingController();
-  final TextEditingController cornerRadiusController = TextEditingController();
-  final TextEditingController widthController = TextEditingController();
-  final TextEditingController arrowHeightController = TextEditingController();
-  final TextEditingController arrowWidthController = TextEditingController();
+import '../config/utils/hive_services.dart';
+
+class RenderScreen extends StatefulWidget {
+  const RenderScreen({super.key});
+  @override
+  State<RenderScreen> createState() => _RenderScreenState();
+}
+
+class _RenderScreenState extends State<RenderScreen> {
+  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textSizeController = TextEditingController();
+  TextEditingController paddingController = TextEditingController();
+  TextEditingController textColorController = TextEditingController();
+  TextEditingController bgColorController = TextEditingController();
+  TextEditingController cornerRadiusController = TextEditingController();
+  TextEditingController widthController = TextEditingController();
+  TextEditingController arrowHeightController = TextEditingController();
+  TextEditingController arrowWidthController = TextEditingController();
+
+  @override
+  void initState() {
+    ListController initController =
+        Provider.of<ListController>(context, listen: false);
+    trya(initController);
+    super.initState();
+  }
+
+  Future<void> trya(ListController initController) async {
+    if (initController.map.isEmpty) {
+      final storedMap = await LocalStorage().fetch();
+      if (storedMap is Map) {
+        // Check if the storedMap is a Map
+        final convertedMap = <String, CustomToolTipParams>{};
+        storedMap.forEach((key, value) {
+          if (key is String && value is CustomToolTipParams) {
+            convertedMap[key] = value;
+          }
+        });
+        initController.map = convertedMap;
+        print(initController.map);
+      } else {}
+    }
+    if (initController.map.containsKey(initController.buttonSelected)) {
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ListController listController =
@@ -82,20 +118,22 @@ class RenderScreen extends StatelessWidget {
                       CustomButton(
                         color: Colors.blue,
                         onPressed: () {
-                          listController.map[listController.buttonSelected] =
-                              CustomToolTipParams(
-                            message: textEditingController.text,
-                            textSize: double.parse(textSizeController.text),
-                            textColor: Colors.blue,
-                            bgColor: Colors.yellow,
-                            radius: double.parse(cornerRadiusController.text),
-                            width: double.parse(widthController.text),
-                            padding: EdgeInsets.all(
-                                double.parse(paddingController.text)),
-                            arrowWidth: double.parse(arrowWidthController.text),
-                            arrowHeight:
-                                double.parse(arrowHeightController.text),
-                          );
+                          // LocalStorage().store(listController.map);
+                          LocalStorage().store(listController.map);
+                          // listController.map[listController.buttonSelected] =
+                          //     CustomToolTipParams(
+                          //   message: textEditingController.text,
+                          //   textSize: double.parse(textSizeController.text),
+                          //   textColor: Colors.blue,
+                          //   bgColor: Colors.yellow,
+                          //   radius: double.parse(cornerRadiusController.text),
+                          //   width: double.parse(widthController.text),
+                          //   padding: EdgeInsets.all(
+                          //       double.parse(paddingController.text)),
+                          //   arrowWidth: double.parse(arrowWidthController.text),
+                          //   arrowHeight:
+                          //       double.parse(arrowHeightController.text),
+                          // );
                         },
                         text: 'Render Tooltip',
                         fontColor: PlotlineColor.lightFont1,
