@@ -10,7 +10,6 @@ class BuildTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 10),
         Text(
           label,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -24,11 +23,13 @@ class BuildTextField extends StatelessWidget {
           child: TextField(
             controller: controller,
             decoration: const InputDecoration(
+              hintText: 'Input',
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             ),
           ),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }

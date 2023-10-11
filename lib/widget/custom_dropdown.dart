@@ -11,7 +11,6 @@ class BuildDropDown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 10),
         Text(
           label,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -40,8 +39,12 @@ class BuildDropDown extends StatelessWidget {
                 child: Text(value),
               );
             }).toList(),
+            decoration: InputDecoration(
+              border: InputBorder.none, // Remove the underline
+            ),
           ),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }

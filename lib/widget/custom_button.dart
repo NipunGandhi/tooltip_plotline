@@ -28,37 +28,33 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicWidth(
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          decoration: BoxDecoration(
-            color: color ?? PlotlineColor.background2,
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-          ),
-          height: height,
-          width: width,
-          padding: padding ?? const EdgeInsets.all(15),
-          margin: margin,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (icon != null) icon!,
-                if (icon != null) const SizedBox(width: 3),
-                Text(
-                  text,
-                  style: textStyle != null
-                      ? textStyle!.copyWith(color: fontColor ?? PlotlineColor.darkFont1)
-                      : Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: fontColor ?? PlotlineColor.darkFont1),
-                ),
-              ],
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            decoration: BoxDecoration(
+              color: color ?? PlotlineColor.background2,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            height: height,
+            width: width,
+            padding: padding ?? const EdgeInsets.all(15),
+            margin: margin,
+            child: Center(
+              child: Text(
+                text,
+                style: textStyle != null
+                    ? textStyle!.copyWith(color: fontColor ?? PlotlineColor.darkFont1)
+                    : Theme.of(context).textTheme.labelLarge!.copyWith(
+                  fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: fontColor ?? PlotlineColor.darkFont1),
+              ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
