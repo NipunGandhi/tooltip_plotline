@@ -10,7 +10,7 @@ class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
   final String? imageURL;
-  final EdgeInsets? imageRadius;
+  final double? imageRadius;
   final double textSize;
   final Color textColor;
   final Color bgColor;
@@ -21,6 +21,7 @@ class CustomToolTip extends StatefulWidget {
   final double arrowWidth;
   final double arrowHeight;
   final BuildContext context;
+  final double? gap;
 
   CustomToolTip({
     super.key,
@@ -38,6 +39,7 @@ class CustomToolTip extends StatefulWidget {
     required this.context,
     this.imageURL,
     this.imageRadius,
+    this.gap,
   }) {
     if (MediaQuery.of(context).size.width < width) {
       throw ("Tooltip's width cannot be more than screens width");
@@ -118,9 +120,10 @@ class _CustomToolTipState extends State<CustomToolTip> {
                           ),
                         ),
                       ),
+                      if(widget.gap != null) SizedBox(height: widget.gap),
                       if (widget.imageURL?.isNotEmpty == true)
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(widget.radius),
+                          borderRadius: BorderRadius.circular(widget.imageRadius ?? 0),
                           child: Image.network(widget.imageURL!),
                         ),
                     ],

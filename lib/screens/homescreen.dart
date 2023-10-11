@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tooltip_plotline/widget/custom_button.dart';
-import 'package:tooltip_plotline/widget/custom_tooltip.dart';
-
+import 'package:provider/provider.dart';
+import 'package:tooltip_plotline/config/controller/controller.dart';
+import 'package:tooltip_plotline/widget/button_tooltip.dart';
 import '../config/colors/colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ListController listController =
+        Provider.of<ListController>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         backgroundColor: PlotlineColor.background1,
@@ -20,53 +22,35 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomToolTip(
+                  CreateCustomToolTip(
+                    buttonKey: 'Button 1',
+                    params: listController.map['Button 1']!,
                     context: context,
-                    message: "high",
-                    child: CustomButton(
-                      onPressed: () {},
-                      text: 'Button 1',
-                    ),
                   ),
-                  CustomToolTip(
+                  CreateCustomToolTip(
+                    buttonKey: 'Button 2',
+                    params: listController.map['Button 2']!,
                     context: context,
-                    message: "Hello",
-                    child: CustomButton(
-                      onPressed: () {},
-                      text: 'Button 2',
-                    ),
                   ),
                 ],
               ),
-              CustomToolTip(
+              CreateCustomToolTip(
+                buttonKey: 'Button 3',
+                params: listController.map['Button 3']!,
                 context: context,
-                width: 100,
-                message:
-                    "oooooooooooooooooooHelloHelloHelloHelloooooooooooooooooooooooooooooHelloHelloHelloHellooooooooooooooooooooooooooooodasdasd12313123213dadsaNipufdadfasdasdasGandgudads",
-                child: CustomButton(
-                  onPressed: () {},
-                  text: 'Button 3',
-                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomToolTip(
+                  CreateCustomToolTip(
+                    buttonKey: 'Button 4',
+                    params: listController.map['Button 4']!,
                     context: context,
-                    message: "Hello",
-                    imageURL: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-                    child: CustomButton(
-                      onPressed: () {},
-                      text: 'Button 4',
-                    ),
                   ),
-                  CustomToolTip(
+                  CreateCustomToolTip(
+                    buttonKey: 'Button 5',
+                    params: listController.map['Button 5']!,
                     context: context,
-                    message: "Testing",
-                    child: CustomButton(
-                      onPressed: () {},
-                      text: 'Button 5',
-                    ),
                   ),
                 ],
               ),

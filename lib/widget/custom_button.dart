@@ -10,7 +10,6 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
-  final Widget? icon;
   final TextStyle? textStyle;
   const CustomButton({
     required this.text,
@@ -21,40 +20,37 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.padding,
     this.margin,
-    this.icon,
     this.textStyle,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: onPressed,
-          child: Container(
-            decoration: BoxDecoration(
-              color: color ?? PlotlineColor.background2,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-            ),
-            height: height,
-            width: width,
-            padding: padding ?? const EdgeInsets.all(15),
-            margin: margin,
-            child: Center(
-              child: Text(
-                text,
-                style: textStyle != null
-                    ? textStyle!.copyWith(color: fontColor ?? PlotlineColor.darkFont1)
-                    : Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: fontColor ?? PlotlineColor.darkFont1),
-              ),
+    return IntrinsicWidth(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+            color: color ?? PlotlineColor.background2,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+          ),
+          height: height,
+          width: width,
+          padding: padding ?? const EdgeInsets.all(15),
+          margin: margin,
+          child: Center(
+            child: Text(
+              text,
+              style: textStyle != null
+                  ? textStyle!.copyWith(color: fontColor ?? PlotlineColor.darkFont1)
+                  : Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: fontColor ?? PlotlineColor.darkFont1),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

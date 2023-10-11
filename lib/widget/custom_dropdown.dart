@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 class BuildDropDown extends StatelessWidget {
-  const BuildDropDown(
-      {super.key, required this.label, required this.selectedTarget});
+  const BuildDropDown({
+    Key? key,
+    required this.label,
+    required this.selectedTarget,
+    required this.items,
+    required this.onChanged,
+  }) : super(key: key);
+
   final String label;
   final String selectedTarget;
+  final List<String> items;
+  final ValueChanged<String?> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +32,15 @@ class BuildDropDown extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: DropdownButtonFormField<String>(
             value: selectedTarget,
-            onChanged: (String? newValue) {
-              // selectedTarget = newValue!;
-            },
-            items: <String>[
-              'Button 1',
-              'Button 2',
-              'Button 3',
-              'Button 4',
-              'Button 5',
-            ].map<DropdownMenuItem<String>>((String value) {
+            onChanged: onChanged,
+            items: items.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
-            decoration: InputDecoration(
-              border: InputBorder.none, // Remove the underline
+            decoration: const InputDecoration(
+              border: InputBorder.none,
             ),
           ),
         ),

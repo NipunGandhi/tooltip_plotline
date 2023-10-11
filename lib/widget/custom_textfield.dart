@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BuildTextField extends StatelessWidget {
-  const BuildTextField({super.key, required this.label, required this.controller});
+  const BuildTextField(
+      {super.key, required this.label, required this.controller, this.textInputType, this.formatter});
   final String label;
   final TextEditingController controller;
+  final TextInputType? textInputType;
+  final List<TextInputFormatter>? formatter;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,8 @@ class BuildTextField extends StatelessWidget {
           ),
           child: TextField(
             controller: controller,
+            inputFormatters: formatter,
+            keyboardType: textInputType,
             decoration: const InputDecoration(
               hintText: 'Input',
               border: InputBorder.none,
@@ -34,3 +40,4 @@ class BuildTextField extends StatelessWidget {
     );
   }
 }
+
