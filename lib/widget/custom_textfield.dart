@@ -29,7 +29,6 @@ class BuildTextField extends StatelessWidget {
             inputFormatters: formatter,
             keyboardType: textInputType,
             decoration: const InputDecoration(
-              hintText: 'Input',
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             ),
