@@ -37,7 +37,7 @@ class _RenderScreenState extends State<RenderScreen> {
 
   Future<void> trya(ListController initController) async {
     final storedMap = await LocalStorage().fetch();
-    if(storedMap != null) {
+    if (storedMap != null) {
       final convertedMap = <String, CustomToolTipParams>{};
       storedMap.forEach((key, value) {
         if (key is String && value is CustomToolTipParams) {
@@ -48,7 +48,16 @@ class _RenderScreenState extends State<RenderScreen> {
       print(initController.map);
     }
     if (initController.map.containsKey(initController.buttonSelected)) {
-
+      CustomToolTipParams selectedParams = initController.map[initController.buttonSelected]!;
+      textEditingController.text = selectedParams.message;
+      textSizeController.text = selectedParams.textSize.toString();
+      paddingController.text = selectedParams.padding.vertical.toString();
+      textColorController.text = selectedParams.textColor.value.toRadixString(16).substring(2);
+      bgColorController.text = selectedParams.bgColor.value.toRadixString(16).substring(2);
+      cornerRadiusController.text = selectedParams.radius.toString();
+      widthController.text = selectedParams.width.toString();
+      arrowHeightController.text = selectedParams.arrowHeight.toString();
+      arrowWidthController.text = selectedParams.arrowWidth.toString();
     }
   }
 
@@ -115,20 +124,24 @@ class _RenderScreenState extends State<RenderScreen> {
                       CustomButton(
                         color: Colors.blue,
                         onPressed: () {
-                          // listController.map[listController.buttonSelected] =
-                          //     CustomToolTipParams(
-                          //   message: textEditingController.text,
-                          //   textSize: double.parse(textSizeController.text),
-                          //   textColor: Colors.blue,
-                          //   bgColor: Colors.yellow,
-                          //   radius: double.parse(cornerRadiusController.text),
-                          //   width: double.parse(widthController.text),
-                          //   padding: EdgeInsets.all(
-                          //       double.parse(paddingController.text)),
-                          //   arrowWidth: double.parse(arrowWidthController.text),
-                          //   arrowHeight:
-                          //       double.parse(arrowHeightController.text),
-                          // );
+                          listController.map[listController.buttonSelected] =
+                              CustomToolTipParams(
+                            message: textEditingController.text,
+                            textSize: double.parse(textSizeController.text),
+                            textColor: Color(int.parse(
+                                '0xFF${textColorController.text}',
+                                radix: 16)),
+                            bgColor: Color(int.parse(
+                                '0xFF${textColorController.text}',
+                                radix: 16)),
+                            radius: double.parse(cornerRadiusController.text),
+                            width: double.parse(widthController.text),
+                            padding: EdgeInsets.all(
+                                double.parse(paddingController.text)),
+                            arrowWidth: double.parse(arrowWidthController.text),
+                            arrowHeight:
+                                double.parse(arrowHeightController.text),
+                          );
                           LocalStorage().store(listController.map);
                         },
                         text: 'Render Tooltip',
