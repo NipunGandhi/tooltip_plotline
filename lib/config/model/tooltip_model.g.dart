@@ -19,7 +19,8 @@ class CustomToolTipParamsAdapter extends TypeAdapter<CustomToolTipParams> {
     return CustomToolTipParams(
       message: fields[0] as String,
       imageURL: fields[1] as String?,
-      imageRadius: fields[2] as EdgeInsets?,
+      imageRadius: fields[2] as double?,
+      gap: fields[11] as double?,
       width: fields[7] as double,
       padding: fields[8] as EdgeInsets,
       textSize: fields[3] as double,
@@ -34,7 +35,7 @@ class CustomToolTipParamsAdapter extends TypeAdapter<CustomToolTipParams> {
   @override
   void write(BinaryWriter writer, CustomToolTipParams obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.message)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class CustomToolTipParamsAdapter extends TypeAdapter<CustomToolTipParams> {
       ..writeByte(9)
       ..write(obj.arrowWidth)
       ..writeByte(10)
-      ..write(obj.arrowHeight);
+      ..write(obj.arrowHeight)
+      ..writeByte(11)
+      ..write(obj.gap);
   }
 
   @override

@@ -9,7 +9,7 @@ class CustomToolTipParams {
   @HiveField(1)
   final String? imageURL;
   @HiveField(2)
-  final EdgeInsets? imageRadius;
+  final double? imageRadius;
   @HiveField(3)
   final double textSize;
   @HiveField(4)
@@ -26,11 +26,15 @@ class CustomToolTipParams {
   final double arrowWidth;
   @HiveField(10)
   final double arrowHeight;
+  @HiveField(11)
+  final double? gap;
 
-  CustomToolTipParams({
+
+  CustomToolTipParams( {
     required this.message,
     this.imageURL,
     this.imageRadius,
+    this.gap,
     required this.width,
     required this.padding,
     required this.textSize,

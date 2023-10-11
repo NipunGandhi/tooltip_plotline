@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tooltip_plotline/config/colors/colors.dart';
 import 'package:tooltip_plotline/config/controller/controller.dart';
 import 'package:tooltip_plotline/config/model/tooltip_model.dart';
+import 'package:tooltip_plotline/screens/homescreen.dart';
 import 'package:tooltip_plotline/widget/custom_button.dart';
 import 'package:tooltip_plotline/widget/custom_dropdown.dart';
 import 'package:tooltip_plotline/widget/custom_textfield.dart';
@@ -11,7 +12,8 @@ import 'package:tooltip_plotline/widget/oneline_converter.dart';
 import '../config/utils/hive_services.dart';
 
 class RenderScreen extends StatefulWidget {
-  const RenderScreen({super.key});
+  const RenderScreen({super.key, this.shouldPop = false});
+  final bool shouldPop;
   @override
   State<RenderScreen> createState() => _RenderScreenState();
 }
@@ -26,6 +28,9 @@ class _RenderScreenState extends State<RenderScreen> {
   TextEditingController widthController = TextEditingController();
   TextEditingController arrowHeightController = TextEditingController();
   TextEditingController arrowWidthController = TextEditingController();
+  TextEditingController imageURL = TextEditingController();
+  TextEditingController imageRadius = TextEditingController();
+  TextEditingController gap = TextEditingController();
 
   @override
   void initState() {
@@ -33,6 +38,18 @@ class _RenderScreenState extends State<RenderScreen> {
         Provider.of<ListController>(context, listen: false);
     initializingValues(initController);
     super.initState();
+  }
+
+  bool areControllersValid() {
+    return textEditingController.text.isNotEmpty &&
+        textSizeController.text.isNotEmpty &&
+        textColorController.text.isNotEmpty &&
+        bgColorController.text.isNotEmpty &&
+        cornerRadiusController.text.isNotEmpty &&
+        widthController.text.isNotEmpty &&
+        paddingController.text.isNotEmpty &&
+        arrowWidthController.text.isNotEmpty &&
+        arrowHeightController.text.isNotEmpty;
   }
 
   Future<void> initializingValues(ListController initController) async {
@@ -45,7 +62,6 @@ class _RenderScreenState extends State<RenderScreen> {
         }
       });
       initController.map = convertedMap;
-      print(initController.map);
     }
     if (initController.map.containsKey(initController.buttonSelected)) {
       CustomToolTipParams selectedParams =
@@ -59,6 +75,9 @@ class _RenderScreenState extends State<RenderScreen> {
       widthController.text = selectedParams.width.toString();
       arrowHeightController.text = selectedParams.arrowHeight.toString();
       arrowWidthController.text = selectedParams.arrowWidth.toString();
+      imageURL.text = selectedParams.imageURL.toString();
+      imageRadius.text = selectedParams.radius.toString();
+      gap.text = selectedParams.gap.toString();
     }
   }
 
@@ -119,6 +138,11 @@ class _RenderScreenState extends State<RenderScreen> {
                           controller: arrowWidthController),
                     ],
                   ),
+                  BuildTextField(label: 'Image URL', controller: imageURL),
+                  BuildTextField(
+                      label: 'Image Radius', controller: imageRadius),
+                  BuildTextField(
+                      label: 'Gap Between Image and Text', controller: gap),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,23 +150,54 @@ class _RenderScreenState extends State<RenderScreen> {
                       CustomButton(
                         color: Colors.blue,
                         onPressed: () {
-                          listController.map[listController.buttonSelected] =
-                              CustomToolTipParams(
-                            message: textEditingController.text,
-                            textSize: double.parse(textSizeController.text),
-                            textColor: textColorController.text,
-                            bgColor: bgColorController.text,
-                            radius: double.parse(cornerRadiusController.text),
-                            width: double.parse(widthController.text),
-                            padding: EdgeInsets.all(
-                                double.parse(paddingController.text)),
-                            arrowWidth: double.parse(arrowWidthController.text),
-                            arrowHeight:
-                                double.parse(arrowHeightController.text),
-                          );
-                          LocalStorage().store(listController.map);
-                          listController.update();
-                          Navigator.pop(context);
+                          if (areControllersValid()) {
+                            listController.map[listController.buttonSelected] =
+                                CustomToolTipParams(
+                              message: textEditingController.text,
+                              textSize: double.parse(textSizeController.text),
+                              textColor: textColorController.text,
+                              bgColor: bgColorController.text,
+                              radius: double.parse(cornerRadiusController.text),
+                              width: double.parse(widthController.text),
+                              padding: EdgeInsets.all(
+                                  double.parse(paddingController.text)),
+                              arrowWidth:
+                                  double.parse(arrowWidthController.text),
+                              arrowHeight:
+                                  double.parse(arrowHeightController.text),
+                            );
+                            LocalStorage().store(listController.map);
+                            listController.update();
+                            if (widget.shouldPop) {
+                              Navigator.pop(context);
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()),
+                              );
+                            }
+                          } else {
+                            // Show an alert dialog because not all controllers have values.
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text(
+                                      'Please fill in all the required fields.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                         text: 'Render Tooltip',
                         fontColor: PlotlineColor.lightFont1,

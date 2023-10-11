@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tooltip_plotline/config/controller/controller.dart';
 import 'package:tooltip_plotline/config/model/edge_inset_adapter.dart';
 import 'package:tooltip_plotline/config/model/tooltip_model.dart';
-import 'package:tooltip_plotline/screens/homescreen.dart';
+import 'package:tooltip_plotline/screens/render_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ListController())
       ],
       child: const MaterialApp(
-        home: HomeScreen(),
+        home: RenderScreen(),
       ),
     );
   }

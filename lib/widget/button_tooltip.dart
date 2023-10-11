@@ -32,6 +32,7 @@ class CreateCustomToolTip extends StatelessWidget {
       radius: params.radius,
       imageRadius: params.imageRadius,
       imageURL: params.imageURL,
+      gap: params.gap,
       child: CustomButton(
         onPressed: () {
           ListController listController =
@@ -39,7 +40,11 @@ class CreateCustomToolTip extends StatelessWidget {
           listController.buttonSelected = buttonKey;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const RenderScreen()),
+            MaterialPageRoute(
+              builder: (context) => const RenderScreen(
+                shouldPop: true,
+              ),
+            ),
           );
         },
         text: buttonKey,
