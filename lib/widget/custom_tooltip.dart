@@ -9,8 +9,8 @@ import '../config/model/model.dart';
 class CustomToolTip extends StatefulWidget {
   final Widget child;
   final String message;
-  final String? imageURL;
-  final double? imageRadius;
+  final Widget? tooltipChild;
+  final BorderRadiusGeometry? tooltipChildRadius;
   final double textSize;
   final Color textColor;
   final Color bgColor;
@@ -35,10 +35,10 @@ class CustomToolTip extends StatefulWidget {
     this.bgColor = Colors.black,
     this.radius = 20,
     this.arrowWidth = 20,
+    this.tooltipChild,
+    this.tooltipChildRadius,
     this.arrowHeight = 20,
     required this.context,
-    this.imageURL,
-    this.imageRadius,
     this.gap,
   }) {
     if (MediaQuery.of(context).size.width < width) {
@@ -120,11 +120,11 @@ class _CustomToolTipState extends State<CustomToolTip> {
                           ),
                         ),
                       ),
-                      if(widget.gap != null) SizedBox(height: widget.gap),
-                      if (widget.imageURL?.isNotEmpty == true)
+                      if (widget.gap != null) SizedBox(height: widget.gap),
+                      if (widget.tooltipChild != null)
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(widget.imageRadius ?? 0),
-                          child: Image.network(widget.imageURL!),
+                          borderRadius: widget.tooltipChildRadius,
+                          child: widget.tooltipChild,
                         ),
                     ],
                   ),

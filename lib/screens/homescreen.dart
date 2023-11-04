@@ -25,19 +25,19 @@ class HomeScreen extends StatelessWidget {
                   CreateCustomToolTip(
                     buttonKey: 'Button 1',
                     params: listController.map['Button 1']!,
-                    context: context,
+                    rootContext: context,
                   ),
                   CreateCustomToolTip(
                     buttonKey: 'Button 2',
                     params: listController.map['Button 2']!,
-                    context: context,
+                    rootContext: context,
                   ),
                 ],
               ),
               CreateCustomToolTip(
                 buttonKey: 'Button 3',
                 params: listController.map['Button 3']!,
-                context: context,
+                rootContext: context,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,12 +45,12 @@ class HomeScreen extends StatelessWidget {
                   CreateCustomToolTip(
                     buttonKey: 'Button 4',
                     params: listController.map['Button 4']!,
-                    context: context,
+                    rootContext: context,
                   ),
                   CreateCustomToolTip(
                     buttonKey: 'Button 5',
                     params: listController.map['Button 5']!,
-                    context: context,
+                    rootContext: context,
                   ),
                 ],
               ),

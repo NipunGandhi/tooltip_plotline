@@ -11,27 +11,41 @@ class CreateCustomToolTip extends StatelessWidget {
     super.key,
     required this.buttonKey,
     required this.params,
-    required this.context,
+    required this.rootContext,
   });
   final String buttonKey;
   final CustomToolTipParams params;
-  final BuildContext context;
+  final BuildContext rootContext;
 
   @override
   Widget build(BuildContext context) {
     return CustomToolTip(
-      context: context,
+      context: rootContext,
       message: params.message,
       bgColor: Color(int.parse("0xFF${params.bgColor.toUpperCase()}")),
       textColor: Color(int.parse("0xFF${params.textColor.toUpperCase()}")),
-      width: params.width,
+      width: 300,
       arrowHeight: params.arrowHeight,
       arrowWidth: params.arrowWidth,
       padding: params.padding,
       textSize: params.textSize,
       radius: params.radius,
-      imageRadius: params.imageRadius,
-      imageURL: params.imageURL,
+      tooltipChildRadius: BorderRadius.circular(params.imageRadius ?? 0),
+      tooltipChild: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Image.network(
+            params.imageURL!,
+            height: 100,
+            width: 100,
+          ),
+          Image.network(
+            params.imageURL!,
+            height: 100,
+            width: 100,
+          ),
+        ],
+      ),
       gap: params.gap,
       child: CustomButton(
         onPressed: () {
